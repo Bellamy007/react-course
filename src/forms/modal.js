@@ -3,22 +3,25 @@ import './modalForm.css'
 import { TodoContext } from "../TodoContext";
 
 function ModalForm() {
-    const {setOpenModal} = React.useContext(TodoContext);
+    const { setOpenModal, addTodo, message } = React.useContext(TodoContext);
+    const [description, setDescription] = React.useState('')
     return (
         <div className="container">
             <h3>Nuevo TODO</h3>
             <div className="form">
                 <form method="post">
                     <div className="form__group">
-                        <input className="form__field" type="text" name="name" placeholder="Your Message" id="POST-name" />
+                        <textarea className="form__field" type="text"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            name="name"
+                            placeholder="Your Message"
+                            id="POST-name"></textarea>
                         <label className="form__label" htmlFor="POST-name"  >Nombre:</label>
                     </div>
-                    <div className="form__group">
-                        <input className="form__field" type="text" name="status" placeholder="status" id="POST-status"/>
-                        <label className="form__label" htmlFor="POST-status"  >Status:</label>
-                    </div>
-                    <button type="button">Guardar</button>
-                    <button type="button" onClick={()=> setOpenModal(false)}>Cancelar</button>
+                    <h2>{message && message}</h2>
+                    <button type="button" onClick={() => addTodo(description)}>Guardar</button>
+                    <button type="button" onClick={() => setOpenModal(false)}>Cancelar</button>
                 </form>
             </div>
         </div>

@@ -16,6 +16,8 @@ function TodoProvider({
     } = useLocalStorage('TODOS_V1', []);
     const [searchValue, setSearchValue] = React.useState('');
     const [openModal, setOpenModal] = React.useState(false);
+    const [message, setMessage] = React.useState('');
+
 
     const completedTodos = todos.filter(
         todo => !!todo.completed
@@ -43,27 +45,43 @@ function TodoProvider({
         const newTodos = [...todos];
         const todoIndex = newTodos.findIndex(
             (todo) => todo.text ===
-            text
+                text
         );
         newTodos.splice(todoIndex, 1);
         saveTodos(newTodos);
     };
 
-    return (   <TodoContext.Provider value = {
-            {
-                loading,
-                error,
-                completedTodos,
-                totalTodos,
-                searchValue,
-                setSearchValue,
-                searchedTodos,
-                completeTodo,
-                deleteTodo,
-                openModal,
-                setOpenModal
-            }
-        } > {
+    const addTodo = (text) => {
+        setMessage('')
+        
+        if (todos.find(todo => todo.text === text)) {
+            setMessage('ya existe un TODO con la misma descripción, intentelo nuevamente')
+        } else {
+            const todo = { text: text, completed: false }
+            todos.push(todo)
+            saveTodos(todos)
+            setOpenModal(false)
+        }
+    }
+
+    return (<TodoContext.Provider value={
+        {
+            loading,
+            error,
+            completedTodos,
+            totalTodos,
+            searchValue,
+            setSearchValue,
+            searchedTodos,
+            completeTodo,
+            deleteTodo,
+            openModal,
+            setOpenModal,
+            addTodo,
+            message,
+            setMessage
+        }
+    } > {
             children
         } </TodoContext.Provider>
     );
