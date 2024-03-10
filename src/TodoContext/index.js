@@ -5,9 +5,7 @@ import {
 
 const TodoContext = React.createContext();
 
-function TodoProvider({
-    children
-}) {
+function TodoProvider({ children }) {
     const {
         item: todos,
         saveItem: saveTodos,
@@ -53,7 +51,7 @@ function TodoProvider({
 
     const addTodo = (text) => {
         setMessage('')
-        
+
         if (todos.find(todo => todo.text === text)) {
             setMessage('ya existe un TODO con la misma descripción, intentelo nuevamente')
         } else {
@@ -64,26 +62,27 @@ function TodoProvider({
         }
     }
 
-    return (<TodoContext.Provider value={
-        {
-            loading,
-            error,
-            completedTodos,
-            totalTodos,
-            searchValue,
-            setSearchValue,
-            searchedTodos,
-            completeTodo,
-            deleteTodo,
-            openModal,
-            setOpenModal,
-            addTodo,
-            message,
-            setMessage
-        }
-    } > {
-            children
-        } </TodoContext.Provider>
+    return (
+        <TodoContext.Provider value={
+            {
+                loading,
+                error,
+                completedTodos,
+                totalTodos,
+                searchValue,
+                setSearchValue,
+                searchedTodos,
+                completeTodo,
+                deleteTodo,
+                openModal,
+                setOpenModal,
+                addTodo,
+                message,
+                setMessage
+            }
+        } >
+            {children}
+        </TodoContext.Provider>
     );
 }
 
